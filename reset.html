@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Đặt lại mật khẩu</title>
+</head>
+<body>
+  <h2>Đặt lại mật khẩu</h2>
+  <input type="password" id="newPass" placeholder="Mật khẩu mới"><br><br>
+  <button onclick="reset()">Xác nhận</button>
+
+  <script>
+    const email = new URLSearchParams(window.location.search).get('email');
+
+    function reset() {
+      const newPass = document.getElementById('newPass').value;
+      // Bạn có thể gửi API để cập nhật mật khẩu tại đây
+      alert(`Đặt lại mật khẩu cho ${email} thành công với mật khẩu mới: ${newPass}`);
+    }
+  </script>
+</body>
+</html>

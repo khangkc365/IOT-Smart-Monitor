@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us - IoT Smart Monitor</title>
+  <style>
+    body {
+      background: linear-gradient(120deg, #e0f7fa 0%, #f8bbd0 100%);
+      font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      min-height: 100vh;
+    }
+    .header-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      padding: 24px 0 10px 0;
+    }
+    .logo-img {
+      width: 70px;
+      height: 70px;
+      border-radius: 16px;
+      box-shadow: 0 2px 12px #b3e5fc;
+      background: #fff;
+      object-fit: contain;
+    }
+    .group-name {
+      font-size: 2.1rem;
+      font-weight: 700;
+      color: #388e3c;
+      letter-spacing: 2px;
+      text-shadow: 0 2px 8px #b3e5fc;
+      text-align: center;
+      flex: 1;
+    }
+    .navbar {
+      background: linear-gradient(90deg, #43cea2 0%, #185a9d 100%);
+      box-shadow: 0 4px 24px rgba(33, 150, 243, 0.10);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 40px;
+      height: 60px;
+      margin-bottom: 24px;
+    }
+    .navbar__list {
+      display: flex;
+      gap: 30px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      align-items: center;
+    }
+    .navbar__link {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 20px;
+      padding: 10px 22px;
+      border-radius: 12px;
+      transition: background 0.25s, box-shadow 0.25s;
+      letter-spacing: 1px;
+    }
+    .navbar__link.active, .navbar__link:hover {
+      background: linear-gradient(90deg, #ffb347 0%, #ffcc33 100%);
+      color: #185a9d;
+      box-shadow: 0 2px 12px #ffecb3;
+    }
+    .about-section {
+      max-width: 900px;
+      margin: 40px auto 0 auto;
+      background: linear-gradient(135deg, #fffde4 60%, #e3f2fd 100%);
+      border-radius: 24px;
+      box-shadow: 0 8px 32px rgba(33, 150, 243, 0.10), 0 1.5px 8px #ffb347;
+      padding: 36px 32px 32px 32px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .about-title {
+      color: #1976d2;
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 18px;
+      letter-spacing: 1px;
+      text-shadow: 0 1px 4px #b3e5fc;
+      text-align: center;
+    }
+    .about-img {
+      width: 90%;
+      max-width: 500px;
+      border-radius: 18px;
+      box-shadow: 0 4px 24px #b3e5fc;
+      margin-bottom: 28px;
+      object-fit: cover;
+      border: 3px solid #b3e5fc;
+      background: #fff;
+    }
+    .about-content {
+      font-size: 1.15rem;
+      color: #333;
+      line-height: 1.7;
+      text-align: justify;
+      margin-bottom: 18px;
+    }
+    .member-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      justify-content: center;
+    }
+    .member-item {
+      background: linear-gradient(90deg, #43cea2 0%, #b3e5fc 100%);
+      color: #185a9d;
+      font-weight: 600;
+      padding: 12px 28px;
+      border-radius: 14px;
+      font-size: 1.08rem;
+      box-shadow: 0 2px 8px #b3e5fc;
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+      transition: background 0.2s, color 0.2s;
+    }
+    .member-item:hover {
+      background: linear-gradient(90deg, #ffb347 0%, #ffcc33 100%);
+      color: #1976d2;
+    }
+    .footer {
+      text-align: center;
+      margin-top: 60px;
+      padding: 16px;
+      color: #555;
+      background-color: #f1f8e9;
+      border-radius: 0 0 18px 18px;
+      font-size: 1rem;
+      box-shadow: 0 -2px 8px rgba(56, 142, 60, 0.06);
+      letter-spacing: 1px;
+      font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+    }
+    @media (max-width: 900px) {
+      .about-section {
+        padding: 18px 6vw;
+      }
+      .about-img {
+        width: 100%;
+      }
+      .member-list {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header với logo và tên nhóm -->
+  <div class="header-bar">
+    <img src="assets/img/logotruong.png" alt="Logo Left" class="logo-img">
+    <div class="group-name">IoT Smart Monitor</div>
+    <img src="assets/img/logokhoa.png" alt="Logo Right" class="logo-img">
+  </div>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <ul class="navbar__list">
+      <li><a href="index.html" class="navbar__link">Home</a></li>
+      <li><a href="weather.html" class="navbar__link">Weather</a></li>
+      <li><a href="About_us.html" class="navbar__link active">About Us</a></li>
+    </ul>
+  </nav>
+  <!-- About section -->
+  <section class="about-section">
+    <div class="about-title">Về Nhóm & Đề Tài</div>
+    <img src="assets/img/nhom.jpg" alt="Nhóm tác giả" class="about-img">
+    <div class="about-content">
+      <b>IoT Smart Monitor</b> là dự án được thực hiện bởi nhóm sinh viên đam mê công nghệ, với mục tiêu xây dựng hệ thống giám sát và điều khiển nhà thông minh dựa trên nền tảng IoT.<br><br>
+      Đề tài tập trung vào việc thu thập, hiển thị và phân tích các thông số môi trường (nhiệt độ, độ ẩm, lượng mưa,...) tại các khu vực trong nhà và ngoài trời, giúp người dùng dễ dàng theo dõi và điều khiển thiết bị từ xa.<br><br>
+      Sản phẩm hướng đến sự tiện nghi, an toàn và tiết kiệm năng lượng cho ngôi nhà hiện đại.
+    </div>
+    <ul class="member-list">
+      <li class="member-item">Lê Anh Quất</li>
+      <li class="member-item">Khưu Chí Khang</li>
+      <li class="member-item">Lê Quốc Đạt</li>
+    </ul>
+  </section>
+  <footer class="footer">
+    &copy; 2025 IoT Smart Monitor - All rights reserved.
+  </footer>
+</body>
+</html>

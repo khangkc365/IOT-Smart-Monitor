@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phòng ngủ</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url('assets/img/phongngu.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+            font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(20, 24, 38, 0.55);
+            z-index: 0;
+            backdrop-filter: blur(2.5px);
+        }
+        header {
+            width: 100%;
+            text-align: center;
+            margin: 48px 0 36px 0;
+            position: relative;
+            z-index: 1;
+        }
+        header h1 {
+            color: #fff;
+            font-size: 3.2rem;
+            letter-spacing: 4px;
+            text-shadow: 0 4px 24px #000, 0 0 10px #1e90ff, 0 0 18px #ffd700;
+            margin: 0;
+            font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+        }
+        header h2.slogan {
+            color: #ffd700;
+            font-size: 1.25rem;
+            font-weight: 500;
+            margin-top: 12px;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 8px #1e90ff, 0 0 10px #000;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(2, auto);
+            gap: 36px;
+            width: 80vw;
+            max-width: 1200px;
+            z-index: 1;
+            position: relative;
+            margin-bottom: 40px;
+        }
+        .grid-item {
+            background: rgba(255,255,255,0.18);
+            border-radius: 32px;
+            box-shadow: 0 8px 36px 0 #1e90ff44, 0 0 0 5px #ffd70044;
+            border: 2.5px solid #1e90ff33;
+            position: relative;
+            overflow: hidden;
+            padding: 38px 18px 32px 18px;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: box-shadow 0.25s, transform 0.22s, background 0.25s;
+            min-height: 270px;
+            backdrop-filter: blur(8px);
+            background-clip: padding-box;
+        }
+        .grid-item:hover {
+            box-shadow: 0 16px 48px 0 #1e90ff77, 0 0 0 7px #ffd70077;
+            transform: translateY(-10px) scale(1.045);
+            background: rgba(255,255,255,0.28);
+        }
+        .grid-item img {
+            width: 140px;
+            height: 140px;
+            object-fit: contain;
+            margin-bottom: 18px;
+            transition: transform 0.22s;
+            filter: drop-shadow(0 4px 16px #1e90ff88);
+        }
+        .grid-item img.device-btn {
+            width: 180px !important;
+            height: 180px !important;
+            margin-bottom: 18px;
+            cursor: pointer;
+            filter: drop-shadow(0 4px 24px #ffb300cc);
+            transition: transform 0.22s, filter 0.22s;
+        }
+        .grid-item img.device-btn:hover {
+            transform: scale(1.10) rotate(-4deg);
+            filter: drop-shadow(0 8px 32px #ffb300ee);
+        }
+        .grid-item h3 {
+            margin: 10px 0 6px 0;
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: #00eaff;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 8px #222, 0 0 10px #1e90ff;
+            font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+        }
+        .grid-item p {
+            font-size: 2.3rem;
+            font-weight: bold;
+            margin: 0;
+            color: #fff;
+            background: none;
+            text-shadow: 0 2px 18px #1e90ff, 0 0 18px #ffd700, 0 0 10px #000;
+            font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+            filter: brightness(1.2) drop-shadow(0 0 8px #ffd700cc);
+            letter-spacing: 1px;
+            transition: color 0.2s, text-shadow 0.2s;
+        }
+        .grid-item .corner-icon {
+            position: absolute;
+            top: 18px;
+            left: 18px;
+            width: 72px;
+            height: 72px;
+            opacity: 1;
+            filter: drop-shadow(0 0 12px #ffd700cc) drop-shadow(0 0 6px #1e90ff88);
+            pointer-events: none;
+            z-index: 2;
+            transform: rotate(-10deg);
+            animation: floaticon 2.5s ease-in-out infinite;
+        }
+        @keyframes floaticon {
+            0%, 100% { transform: rotate(-10deg) translateY(0);}
+            50% { transform: rotate(-10deg) translateY(-10px);}
+        }
+        .grid-item .divider {
+            width: 60%;
+            height: 2px;
+            background: linear-gradient(90deg, #1e90ff 0%, #ffd700 100%);
+            border-radius: 1px;
+            margin: 10px 0 18px 0;
+            opacity: 0.5;
+        }
+        #air-btn {
+            width: 240px !important;
+            height: 160px !important;
+        }
+        #lamp-btn, #clock-img {
+            width: 180px !important;
+            height: 180px !important;
+        }
+        #remote-btn, #btn2 {
+            width: 120px !important;
+            height: 120px !important;
+            margin-top: 32px;
+        }
+        #clock-time {
+            font-size: 2.2rem;
+            color: #fff;
+            margin-bottom: 8px;
+            text-shadow: 0 2px 12px #ffb300, 0 0 10px #000;
+            font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+            letter-spacing: 2px;
+            filter: drop-shadow(0 0 8px #ffd700cc);
+        }
+        #alarm-time, #set-alarm-btn {
+            font-size: 1.1rem;
+            border-radius: 8px;
+            border: none;
+            padding: 7px 14px;
+            margin-top: 8px;
+            background: #fff;
+            color: #1e90ff;
+            box-shadow: 0 2px 8px #1e90ff33;
+            font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+        }
+        #set-alarm-btn {
+            cursor: pointer;
+            background: linear-gradient(90deg, #1e90ff 60%, #ffb300 100%);
+            color: #fff;
+            font-weight: bold;
+            margin-top: 10px;
+            transition: background 0.2s;
+        }
+        #set-alarm-btn:hover {
+            background: linear-gradient(90deg, #ffb300 0%, #1e90ff 100%);
+        }
+        #alarm-status {
+            margin-top: 7px;
+            color: #ffd700;
+            font-size: 1.1rem;
+            text-shadow: 0 2px 8px #222, 0 0 10px #ffd700;
+            font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+        }
+        .curtain {
+            position: fixed;
+            top: 0;
+            height: 100vh;
+            width: auto;
+            z-index: 10;
+            pointer-events: none;
+            user-select: none;
+            opacity: 0.92;
+        }
+        .curtain-left {
+            left: 0;
+        }
+        .curtain-right {
+            right: 0;
+            transform: scaleX(-1);
+        }
+        .decor {
+            position: fixed;
+            bottom: 24px;
+            width: 90px;
+            height: auto;
+            z-index: 10;
+            opacity: 0.88;
+            pointer-events: none;
+        }
+        .decor-left {
+            left: 24px;
+        }
+        .decor-right {
+            right: 24px;
+        }
+        @media (max-width: 900px) {
+            .grid-container {
+                grid-template-columns: 1fr;
+                width: 98vw;
+                gap: 22px;
+            }
+            .grid-item {
+                min-height: 200px;
+                padding: 28px 8vw 24px 8vw;
+            }
+        }
+        .alarm-glow {
+            animation: alarmGlow 0.5s alternate infinite;
+            box-shadow: 0 0 32px 8px #ffd700, 0 0 48px 16px #1e90ff;
+        }
+        @keyframes alarmGlow {
+            0% {
+                filter: drop-shadow(0 0 0px #ffd700) drop-shadow(0 0 0px #1e90ff);
+            }
+            100% {
+                filter: drop-shadow(0 0 24px #ffd700) drop-shadow(0 0 32px #1e90ff);
+            }
+        }
+        .alarm-set-success {
+            animation: alarmSetSuccess 1s;
+            color: #00e676 !important;
+            text-shadow: 0 0 12px #00e676, 0 0 20px #fff;
+        }
+        @keyframes alarmSetSuccess {
+            0% { transform: scale(1); }
+            20% { transform: scale(1.15) rotate(-2deg);}
+            40% { transform: scale(1.1) rotate(2deg);}
+            60% { transform: scale(1.15) rotate(-2deg);}
+            80% { transform: scale(1.1) rotate(2deg);}
+            100% { transform: scale(1);}
+        }
+    </style>
+</head>
+<body>
+
+    <!--<img class="curtain curtain-left" src="assets/img/curtain.png" alt="Rèm trái">
+    <img class="curtain curtain-right" src="assets/img/curtain.png" alt="Rèm phải"> -->
+    
+    <img class="decor decor-left" src="assets/img/plant.png" alt="Cây xanh">
+    <img class="decor decor-right" src="assets/img/plant.png" alt="Đèn ngủ">
+    <header>
+        <h1>PHÒNG NGỦ</h1>
+        <h2 class="slogan">Không gian nghỉ ngơi thông minh & an toàn</h2>
+    </header>
+    <div class="grid-container">
+        <!-- Hàng trên -->
+        <div class="grid-item">
+            <img class="corner-icon" src="assets/img/sun.png" alt="">
+            <img src="assets/img/nhietdo.png" alt="Nhiệt độ">
+            <h3>Nhiệt độ</h3>
+            <div class="divider"></div>
+            <p>25°C</p>
+        </div>
+        <div class="grid-item">
+            <img class="corner-icon" src="assets/img/drop.png" alt="">
+            <img src="assets/img/doam.png" alt="Độ ẩm">
+            <h3>Độ ẩm</h3>
+            <div class="divider"></div>
+            <p>60%</p>
+        </div>
+        <div class="grid-item">
+            <img class="corner-icon" src="assets/img/warning.png" alt="">
+            <img src="assets/img/gas1.png" alt="Khí gas">
+            <h3>Khí gas</h3>
+            <div class="divider"></div>
+            <p>An toàn</p>
+        </div>
+        <!-- Hàng dưới -->
+        <div class="grid-item" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+            <img id="air-btn" class="device-btn" src="assets/img/airoff.png" alt="Air">
+            <img id="remote-btn" class="device-btn" src="assets/img/remoteoff.png" alt="Remote">
+        </div>
+        <div class="grid-item" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+            <img id="lamp-btn" class="device-btn" src="assets/img/lampoff.png" alt="Lamp">
+            <img id="btn2" class="device-btn" src="assets/img/btnoff.png" alt="Button">
+        </div>
+        <div class="grid-item" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+            <img id="clock-img" class="device-btn" src="assets/img/clockoff.png" alt="Clock">
+            <div id="clock-time"></div>
+            <input type="time" id="alarm-time">
+            <button id="set-alarm-btn">Đặt báo thức</button>
+            <div id="alarm-status"></div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const remoteBtn = document.getElementById('remote-btn');
+            const airBtn = document.getElementById('air-btn');
+            let isOn = false;
+            remoteBtn.addEventListener('click', function() {
+                isOn = !isOn;
+                remoteBtn.src = isOn ? 'assets/img/remoteon.png' : 'assets/img/remoteoff.png';
+                airBtn.src = isOn ? 'assets/img/airon.png' : 'assets/img/airoff.png';
+            });
+
+            // Thêm xử lý cho nút ở hàng dưới 2
+            const btn2 = document.getElementById('btn2');
+            const lampBtn = document.getElementById('lamp-btn');
+            let btn2On = false;
+            btn2.addEventListener('click', function() {
+                btn2On = !btn2On;
+                btn2.src = btn2On ? 'assets/img/btnon.png' : 'assets/img/btnoff.png';
+                lampBtn.src = btn2On ? 'assets/img/lampon.png' : 'assets/img/lampoff.png';
+            });
+
+            // Báo thức
+            let alarmHour = null;
+            let alarmMinute = null;
+            let alarmSet = false;
+            let alarmTriggered = false;
+
+            const alarmInput = document.getElementById('alarm-time');
+            const setAlarmBtn = document.getElementById('set-alarm-btn');
+            const alarmStatus = document.getElementById('alarm-status');
+            const clockImg = document.getElementById('clock-img');
+
+            setAlarmBtn.addEventListener('click', function() {
+                if (alarmInput.value) {
+                    let [h, m] = alarmInput.value.split(':');
+                    h = String(Number(h)).padStart(2, '0');
+                    m = String(Number(m)).padStart(2, '0');
+                    alarmHour = h;
+                    alarmMinute = m;
+                    alarmSet = true;
+                    alarmTriggered = false;
+                    alarmStatus.textContent = `✅ Đã đặt báo thức: ${h}:${m}`;
+                    alarmStatus.classList.add('alarm-set-success');
+                    setTimeout(() => {
+                        alarmStatus.classList.remove('alarm-set-success');
+                    }, 1200);
+                    clockImg.src = 'assets/img/clockoff.png';
+                    document.body.classList.remove('shake');
+                    clockImg.classList.remove('alarm-glow');
+                } else {
+                    alarmStatus.textContent = 'Vui lòng chọn giờ báo thức!';
+                }
+            });
+
+            function checkAlarm(h, m, s) {
+                if (alarmSet && !alarmTriggered && h === alarmHour && m === alarmMinute) {
+                    alarmTriggered = true;
+                    clockImg.src = 'assets/img/clockon.png';
+                    alarmStatus.textContent = '⏰ Đã đến giờ báo thức!';
+                    document.body.classList.add('shake');
+                    clockImg.classList.add('alarm-glow');
+                    setTimeout(() => {
+                        document.body.classList.remove('shake');
+                        clockImg.classList.remove('alarm-glow');
+                        clockImg.src = 'assets/img/clockoff.png';
+                        alarmStatus.textContent = '';
+                        alarmSet = false;
+                        alarmTriggered = false;
+                    }, 5000);
+                }
+                if (alarmTriggered && (h !== alarmHour || m !== alarmMinute)) {
+                    alarmTriggered = false;
+                }
+            }
+
+            function updateClock() {
+                const now = new Date();
+                const h = String(now.getHours()).padStart(2, '0');
+                const m = String(now.getMinutes()).padStart(2, '0');
+                const s = String(now.getSeconds()).padStart(2, '0');
+                document.getElementById('clock-time').textContent = `${h}:${m}:${s}`;
+                checkAlarm(h, m, s);
+            }
+            setInterval(updateClock, 1000);
+            updateClock();
+
+            // CSS rung màn hình và glow đã có trong file của bạn
+        });
+    </script>
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
+      import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-database.js";
+      const firebaseConfig = {
+        apiKey: "AIzaSyDDCpvt0iXyXRXHUnJwWYTkZzslwrD4ZH4",
+        authDomain: "project2-ea288.firebaseapp.com",
+        databaseURL: "https://project2-ea288-default-rtdb.firebaseio.com",
+        projectId: "project2-ea288",
+        storageBucket: "project2-ea288.firebasestorage.app",
+        messagingSenderId: "1043037540664",
+        appId: "1:1043037540664:web:6c004642d4b9c2da8ff1cd",
+        measurementId: "G-6B52FSW42T"
+      };
+      const app = initializeApp(firebaseConfig);
+      const db = getDatabase(app);
+      const bedroomRef = ref(db, 'bedroom');
+      onValue(bedroomRef, (snapshot) => {
+        const data = snapshot.val();
+        if (data) {
+          document.querySelector('.grid-item:nth-child(1) p').textContent = data.temperature + "°C";
+          document.querySelector('.grid-item:nth-child(2) p').textContent = data.humidity + "%";
+          document.querySelector('.grid-item:nth-child(3) p').textContent = data.gas + " ppm";
+        }
+      });
+    </script>
+</body>
+</html>

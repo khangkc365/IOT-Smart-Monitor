@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather - IoT Smart Home</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&display=swap');
+    body {
+      background: linear-gradient(120deg, #e0f7fa 0%, #f8bbd0 100%);
+      font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      min-height: 100vh;
+    }
+    .navbar {
+      background: linear-gradient(90deg, #43cea2 0%, #185a9d 100%);
+      padding: 0 0 0 30px;
+      box-shadow: 0 4px 24px rgba(33, 150, 243, 0.10);
+    }
+    .navbar__list {
+      display: flex;
+      gap: 30px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      height: 56px;
+      align-items: center;
+    }
+    .navbar__link {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 20px;
+      padding: 10px 22px;
+      border-radius: 12px;
+      transition: background 0.25s, box-shadow 0.25s;
+      letter-spacing: 1px;
+    }
+    .navbar__link.active, .navbar__link:hover {
+      background: linear-gradient(90deg, #ffb347 0%, #ffcc33 100%);
+      color: #185a9d;
+      box-shadow: 0 2px 12px #ffecb3;
+    }
+    h2 {
+      margin-top: 36px;
+      color: #185a9d;
+      letter-spacing: 2px;
+      font-size: 2.3rem;
+      font-weight: 700;
+      text-shadow: 0 2px 8px #b3e5fc;
+      font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+    }
+    .weather-container {
+      display: flex;
+      justify-content: center;
+      gap: 36px;
+      margin: 48px auto 0;
+      max-width: 1200px;
+      flex-wrap: wrap;
+    }
+    .weather-card {
+      background: linear-gradient(135deg, #fffde4 60%, #f1f8e9 100%);
+      border-radius: 24px;
+      box-shadow: 0 8px 32px rgba(33, 150, 243, 0.18), 0 1.5px 8px #ffb347;
+      padding: 32px 28px 24px 28px;
+      min-width: 240px;
+      max-width: 270px;
+      text-align: center;
+      transition: transform 0.25s, box-shadow 0.25s;
+      margin-bottom: 18px;
+      border: 2.5px solid #b3e5fc;
+      position: relative;
+      overflow: hidden;
+    }
+    .weather-card:hover {
+      transform: translateY(-10px) scale(1.04) rotate(-1deg);
+      box-shadow: 0 16px 48px rgba(33, 150, 243, 0.25), 0 2px 16px #ffb347;
+      border-color: #ffb347;
+      background: linear-gradient(135deg, #e3f2fd 60%, #fffde4 100%);
+    }
+    .weather-card h3 {
+      color: #1976d2;
+      margin-bottom: 14px;
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-shadow: 0 1px 4px #b3e5fc;
+    }
+    .weather-icon {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 10px;
+      filter: drop-shadow(0 4px 16px #b3e5fc);
+      transition: transform 0.3s;
+      animation: float 2.5s ease-in-out infinite;
+    }
+    .weather-card:hover .weather-icon {
+      transform: scale(1.1) rotate(-6deg);
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0);}
+      50% { transform: translateY(-10px);}
+    }
+    .weather-card p {
+      margin: 8px 0;
+      font-size: 1.12rem;
+      color: #333;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+    }
+    .rainfall {
+      color: #0288d1;
+      font-weight: 700;
+      font-size: 1.08rem;
+      margin-top: 8px;
+      letter-spacing: 0.5px;
+    }
+    .charts-section {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 36px;
+      margin: 48px auto 0;
+      max-width: 1300px;
+    }
+    .chart-card {
+      background: linear-gradient(135deg, #fffde4 60%, #e3f2fd 100%);
+      border-radius: 24px;
+      box-shadow: 0 8px 32px rgba(56, 142, 60, 0.13), 0 1.5px 8px #b3e5fc;
+      padding: 32px 28px 24px 28px;
+      min-width: 360px;
+      max-width: 400px;
+      flex: 1 1 360px;
+      margin-bottom: 28px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border: 2.5px solid #b3e5fc;
+      transition: box-shadow 0.25s, border-color 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+    .chart-card:hover {
+      box-shadow: 0 16px 48px rgba(56, 142, 60, 0.22), 0 2px 16px #ffb347;
+      border-color: #ffb347;
+      background: linear-gradient(135deg, #e3f2fd 60%, #fffde4 100%);
+    }
+    .chart-card h3 {
+      margin-bottom: 14px;
+      font-size: 1.18rem;
+      font-weight: 700;
+      color: #388e3c;
+      letter-spacing: 1px;
+      text-shadow: 0 1px 4px #b3e5fc;
+    }
+    .chart-card canvas {
+      margin-bottom: 12px;
+      background: #f5f5f5;
+      border-radius: 16px;
+      box-shadow: 0 2px 12px rgba(33, 150, 243, 0.09);
+      padding: 8px;
+      transition: box-shadow 0.25s;
+    }
+    .chart-alert {
+      text-align: center;
+      color: #d32f2f;
+      font-weight: bold;
+      margin-top: 10px;
+      font-size: 1.12rem;
+      letter-spacing: 0.5px;
+      animation: alertPop 1.2s cubic-bezier(.68,-0.55,.27,1.55) infinite alternate;
+    }
+    @keyframes alertPop {
+      0% { transform: scale(1);}
+      100% { transform: scale(1.07);}
+    }
+    .footer {
+      text-align: center;
+      margin-top: 60px;
+      padding: 16px;
+      color: #555;
+      background-color: #f1f8e9;
+      border-radius: 0 0 18px 18px;
+      font-size: 1rem;
+      box-shadow: 0 -2px 8px rgba(56, 142, 60, 0.06);
+      letter-spacing: 1px;
+      font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+    }
+    @media (max-width: 1100px) {
+      .weather-container, .charts-section {
+        flex-direction: column;
+        align-items: center;
+        gap: 28px;
+      }
+      .chart-card {
+        min-width: 90vw;
+        max-width: 98vw;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <ul class="navbar__list">
+      <li><a href="index.html" class="navbar__link">Home</a></li>
+      <li><a href="weather.html" class="navbar__link active">Weather</a></li>
+      <li><a href="About_us.html" class="navbar__link">About Us</a></li>
+    </ul>
+  </nav>
+
+  <h2 style="text-align: center;">Thời tiết các khu vực tại TP. Hồ Chí Minh</h2>
+
+  <!-- Weather cards -->
+  <div class="weather-container">
+    <div class="weather-card">
+      <h3>Quận 1</h3>
+      <img src="assets/img/sunny.png" alt="Sunny" class="weather-icon">
+      <p>Trời nắng</p>
+      <p>Nhiệt độ: 33°C</p>
+      <p>Độ ẩm: 58%</p>
+    </div>
+
+    <div class="weather-card">
+      <h3>Thủ Đức</h3>
+      <img src="assets/img/cloudy.png" alt="Cloudy" class="weather-icon">
+      <p>Trời nhiều mây</p>
+      <p>Nhiệt độ: 31°C</p>
+      <p>Độ ẩm: 65%</p>
+    </div>
+
+    <div class="weather-card">
+      <h3>Bình Thạnh</h3>
+      <img src="assets/img/rainy.png" alt="Rainy" class="weather-icon">
+      <p>Có mưa nhỏ</p>
+      <p>Nhiệt độ: 30°C</p>
+      <p>Độ ẩm: 78%</p>
+    </div>
+
+    <div class="weather-card">
+      <h3>Quận 7</h3>
+      <img src="assets/img/storm.png" alt="Storm" class="weather-icon">
+      <p>Dông và mưa</p>
+      <p>Nhiệt độ: 29°C</p>
+      <p>Độ ẩm: 82%</p>
+    </div>
+  </div>
+
+  <div class="charts-section">
+    <div class="chart-card">
+      <h3>Biểu đồ tổng lượng mưa các khu vực</h3>
+      <canvas id="rainChart" height="220"></canvas>
+      <div id="rainAlert" class="chart-alert"></div>
+    </div>
+    <div class="chart-card">
+      <h3 style="color:#e65100;">Biểu đồ nhiệt độ các khu vực</h3>
+      <canvas id="tempChart" height="220"></canvas>
+      <div id="tempAlert" class="chart-alert"></div>
+    </div>
+    <div class="chart-card">
+      <h3 style="color:#0277bd;">Biểu đồ độ ẩm các khu vực</h3>
+      <canvas id="humidityChart" height="220"></canvas>
+      <div id="humidityAlert" class="chart-alert"></div>
+    </div>
+  </div>
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Firebase App (the core Firebase SDK) -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.3/firebase-app.js";
+    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/11.7.3/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDDCpvt0iXyXRXHUnJwWYTkZzslwrD4ZH4",
+      authDomain: "project2-ea288.firebaseapp.com",
+      databaseURL: "https://project2-ea288-default-rtdb.firebaseio.com",
+      projectId: "project2-ea288",
+      storageBucket: "project2-ea288",
+      messagingSenderId: "1043037540664",
+      appId: "1:1043037540664:web:6c004642d4b9c2da8ff1cd",
+      measurementId: "G-6B52FSW42T"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    const areaMap = {
+      quan1: 0,
+      thuduc: 1,
+      binhthanh: 2,
+      quan7: 3
+    };
+    const areaNames = ["Quận 1", "Thủ Đức", "Bình Thạnh", "Quận 7"];
+    let rainfallData = [0, 0, 0, 0];
+    let tempData = [0, 0, 0, 0];
+    let humidityData = [0, 0, 0, 0];
+
+    // Chart.js setup
+    const ctx = document.getElementById('rainChart').getContext('2d');
+    const rainChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: areaNames,
+        datasets: [{
+          label: 'Lượng mưa (mm)',
+          data: rainfallData,
+          backgroundColor: [
+            'rgba(33, 150, 243, 0.7)',
+            'rgba(102, 187, 106, 0.7)',
+            'rgba(255, 167, 38, 0.7)',
+            'rgba(171, 71, 188, 0.7)'
+          ],
+          borderRadius: 12,
+          borderSkipped: false,
+          hoverBackgroundColor: [
+            'rgba(33, 150, 243, 1)',
+            'rgba(102, 187, 106, 1)',
+            'rgba(255, 167, 38, 1)',
+            'rgba(171, 71, 188, 1)'
+          ]
+        }]
+      },
+      options: {
+        plugins: {
+          legend: { display: false },
+          title: {
+            display: false
+          },
+          tooltip: {
+            backgroundColor: '#fff',
+            titleColor: '#388e3c',
+            bodyColor: '#333',
+            borderColor: '#388e3c',
+            borderWidth: 1
+          }
+        },
+        scales: {
+          x: {
+            grid: { display: false }
+          },
+          y: {
+            beginAtZero: true,
+            suggestedMax: 60,
+            grid: { color: '#e0e0e0' }
+          }
+        }
+      }
+    });
+
+    // Chart.js setup cho nhiệt độ
+    const tempCtx = document.getElementById('tempChart').getContext('2d');
+    const tempChart = new Chart(tempCtx, {
+      type: 'bar',
+      data: {
+        labels: areaNames,
+        datasets: [{
+          label: 'Nhiệt độ (°C)',
+          data: tempData,
+          backgroundColor: [
+            'rgba(255, 112, 67, 0.7)',
+            'rgba(255, 167, 38, 0.7)',
+            'rgba(255, 213, 79, 0.7)',
+            'rgba(255, 179, 0, 0.7)'
+          ],
+          borderRadius: 12,
+          borderSkipped: false,
+          hoverBackgroundColor: [
+            'rgba(255, 112, 67, 1)',
+            'rgba(255, 167, 38, 1)',
+            'rgba(255, 213, 79, 1)',
+            'rgba(255, 179, 0, 1)'
+          ]
+        }]
+      },
+      options: {
+        plugins: {
+          legend: { display: false },
+          title: { display: false },
+          tooltip: {
+            backgroundColor: '#fff',
+            titleColor: '#e65100',
+            bodyColor: '#333',
+            borderColor: '#e65100',
+            borderWidth: 1
+          }
+        },
+        scales: {
+          x: { grid: { display: false } },
+          y: {
+            beginAtZero: true,
+            suggestedMax: 45,
+            grid: { color: '#ffe0b2' }
+          }
+        }
+      }
+    });
+
+    // Chart.js setup cho độ ẩm
+    const humidityCtx = document.getElementById('humidityChart').getContext('2d');
+    const humidityChart = new Chart(humidityCtx, {
+      type: 'bar',
+      data: {
+        labels: areaNames,
+        datasets: [{
+          label: 'Độ ẩm (%)',
+          data: humidityData,
+          backgroundColor: [
+            'rgba(41, 182, 246, 0.7)',
+            'rgba(79, 195, 247, 0.7)',
+            'rgba(129, 212, 250, 0.7)',
+            'rgba(2, 136, 209, 0.7)'
+          ],
+          borderRadius: 12,
+          borderSkipped: false,
+          hoverBackgroundColor: [
+            'rgba(41, 182, 246, 1)',
+            'rgba(79, 195, 247, 1)',
+            'rgba(129, 212, 250, 1)',
+            'rgba(2, 136, 209, 1)'
+          ]
+        }]
+      },
+      options: {
+        plugins: {
+          legend: { display: false },
+          title: { display: false },
+          tooltip: {
+            backgroundColor: '#fff',
+            titleColor: '#0277bd',
+            bodyColor: '#333',
+            borderColor: '#0277bd',
+            borderWidth: 1
+          }
+        },
+        scales: {
+          x: { grid: { display: false } },
+          y: {
+            beginAtZero: true,
+            suggestedMax: 100,
+            grid: { color: '#b3e5fc' }
+          }
+        }
+      }
+    });
+
+    function updateRainChart() {
+      rainChart.data.datasets[0].data = rainfallData;
+      rainChart.update();
+
+      // Tổng lượng mưa
+      const totalRain = rainfallData.reduce((a, b) => a + b, 0);
+      const alertDiv = document.getElementById('rainAlert');
+      if (totalRain > 50) {
+        alertDiv.textContent = `CẢNH BÁO: Tổng lượng mưa toàn thành phố là ${totalRain.toFixed(1)} mm!`;
+      } else {
+        alertDiv.textContent = '';
+      }
+    }
+
+    function updateTempChart() {
+      tempChart.data.datasets[0].data = tempData;
+      tempChart.update();
+      const maxTemp = Math.max(...tempData);
+      const alertDiv = document.getElementById('tempAlert');
+      if (maxTemp > 38) {
+        alertDiv.textContent = `CẢNH BÁO: Nhiệt độ cao nhất lên tới ${maxTemp.toFixed(1)}°C!`;
+      } else {
+        alertDiv.textContent = '';
+      }
+    }
+
+    function updateHumidityChart() {
+      humidityChart.data.datasets[0].data = humidityData;
+      humidityChart.update();
+      const maxHumidity = Math.max(...humidityData);
+      const alertDiv = document.getElementById('humidityAlert');
+      if (maxHumidity > 85) {
+        alertDiv.textContent = `CẢNH BÁO: Độ ẩm cao nhất lên tới ${maxHumidity.toFixed(1)}%!`;
+      } else {
+        alertDiv.textContent = '';
+      }
+    }
+
+    // Mapping weather to icon
+    function getWeatherIcon(rainfall) {
+      if (rainfall >= 2) return "storm.png";
+      if (rainfall >= 1) return "rainy.png";
+      if (rainfall > 0) return "cloudy.png";
+      return "sunny.png";
+    }
+
+    function getWeatherDesc(rainfall) {
+      if (rainfall >= 2) return "Dông và mưa";
+      if (rainfall >= 1) return "Có mưa nhỏ";
+      if (rainfall > 0) return "Trời nhiều mây";
+      return "Trời nắng";
+    }
+
+    // Listen for each area
+    Object.keys(areaMap).forEach((area, idx) => {
+      const card = document.getElementsByClassName('weather-card')[areaMap[area]];
+      const dbRef = ref(db, area);
+      onValue(dbRef, (snapshot) => {
+        const data = snapshot.val();
+        if (data && card) {
+          const icon = getWeatherIcon(data.rainfall || 0);
+          const desc = getWeatherDesc(data.rainfall || 0);
+
+          card.querySelector('img.weather-icon').src = `assets/img/${icon}`;
+          card.querySelector('img.weather-icon').alt = icon.split('.')[0];
+          card.querySelector('p:nth-of-type(1)').textContent = desc;
+          card.querySelector('p:nth-of-type(2)').textContent = `Nhiệt độ: ${data.temperature ?? '-'}°C`;
+          card.querySelector('p:nth-of-type(3)').textContent = `Độ ẩm: ${data.humidity ?? '-'}%`;
+
+          // Thêm lượng mưa nếu chưa có
+          let rainfallElem = card.querySelector('.rainfall');
+          if (!rainfallElem) {
+            rainfallElem = document.createElement('p');
+            rainfallElem.className = 'rainfall';
+            card.appendChild(rainfallElem);
+          }
+          rainfallElem.textContent = `Lượng mưa: ${data.rainfall ?? 0} mm`;
+
+          // Cập nhật dữ liệu biểu đồ
+          rainfallData[idx] = Number(data.rainfall) || 0;
+          tempData[idx] = Number(data.temperature) || 0;
+          humidityData[idx] = Number(data.humidity) || 0;
+          updateRainChart();
+          updateTempChart();
+          updateHumidityChart();
+        }
+      });
+    });
+  </script>
+
+  <footer class="footer">
+    &copy; Weather Monitor 2025
+  </footer>
+
+</body>
+</html>

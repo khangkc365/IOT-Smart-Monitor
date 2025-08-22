@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Trang chủ</title>
+   <style>
+      body {
+         background: linear-gradient(120deg, #e0f7fa 0%, #f8bbd0 100%);
+         font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+         margin: 0;
+         min-height: 100vh;
+      }
+      .header-bar {
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         gap: 32px;
+         padding: 24px 0 10px 0;
+      }
+      .logo-img {
+         width: 70px;
+         height: 70px;
+         border-radius: 16px;
+         box-shadow: 0 2px 12px #b3e5fc;
+         background: #fff;
+         object-fit: contain;
+      }
+      .group-name {
+         font-size: 2.1rem;
+         font-weight: 700;
+         color: #388e3c;
+         letter-spacing: 2px;
+         text-shadow: 0 2px 8px #b3e5fc;
+         text-align: center;
+         flex: 1;
+      }
+      .navbar {
+         background: linear-gradient(90deg, #43cea2 0%, #185a9d 100%);
+         box-shadow: 0 4px 24px rgba(33, 150, 243, 0.10);
+         display: flex;
+         align-items: center;
+         justify-content: space-between;
+         padding: 0 40px;
+         height: 60px;
+         margin-bottom: 24px;
+      }
+      .navbar__list {
+         display: flex;
+         gap: 30px;
+         list-style: none;
+         margin: 0;
+         padding: 0;
+         align-items: center;
+      }
+      .navbar__link {
+         color: #fff;
+         text-decoration: none;
+         font-weight: 700;
+         font-size: 20px;
+         padding: 10px 22px;
+         border-radius: 12px;
+         transition: background 0.25s, box-shadow 0.25s;
+         letter-spacing: 1px;
+      }
+      .navbar__link.active, .navbar__link:hover {
+         background: linear-gradient(90deg, #ffb347 0%, #ffcc33 100%);
+         color: #185a9d;
+         box-shadow: 0 2px 12px #ffecb3;
+      }
+      .logout-btn {
+         padding: 10px 28px;
+         background: linear-gradient(90deg, #ffb347 0%, #ffcc33 100%);
+         color: #185a9d;
+         border: none;
+         border-radius: 12px;
+         font-size: 1.1rem;
+         font-weight: 700;
+         cursor: pointer;
+         box-shadow: 0 2px 12px #ffecb3;
+         transition: background 0.25s, color 0.25s, box-shadow 0.25s;
+         margin-left: 18px;
+      }
+      .logout-btn:hover {
+         background: linear-gradient(90deg, #43cea2 0%, #185a9d 100%);
+         color: #fff;
+         box-shadow: 0 4px 16px #b3e5fc;
+      }
+      .container {
+         max-width: 1200px;
+         margin: 0 auto;
+         display: flex;
+         justify-content: center;
+      }
+      .card__container {
+         display: flex;
+         gap: 36px;
+         flex-wrap: wrap;
+         justify-content: center;
+         margin: 48px 0 0 0;
+      }
+      .card__article {
+         background: linear-gradient(135deg, #fffde4 60%, #e3f2fd 100%);
+         border-radius: 24px;
+         box-shadow: 0 8px 32px rgba(33, 150, 243, 0.18), 0 1.5px 8px #ffb347;
+         padding: 24px 18px 18px 18px;
+         min-width: 260px;
+         max-width: 300px;
+         text-align: center;
+         transition: transform 0.25s, box-shadow 0.25s;
+         margin-bottom: 18px;
+         border: 2.5px solid #b3e5fc;
+         position: relative;
+         overflow: hidden;
+      }
+      .card__article:hover {
+         transform: translateY(-10px) scale(1.04) rotate(-1deg);
+         box-shadow: 0 16px 48px rgba(33, 150, 243, 0.25), 0 2px 16px #ffb347;
+         border-color: #ffb347;
+         background: linear-gradient(135deg, #e3f2fd 60%, #fffde4 100%);
+      }
+      .card__img {
+         width: 100%;
+         height: 180px;
+         object-fit: cover;
+         border-radius: 16px;
+         margin-bottom: 14px;
+         box-shadow: 0 2px 12px #b3e5fc;
+         transition: transform 0.3s;
+      }
+      .card__article:hover .card__img {
+         transform: scale(1.05) rotate(-2deg);
+      }
+      .card__title {
+         color: #1976d2;
+         margin-bottom: 10px;
+         font-size: 1.25rem;
+         font-weight: 700;
+         letter-spacing: 1px;
+         text-shadow: 0 1px 4px #b3e5fc;
+      }
+      .card__button {
+         display: inline-block;
+         margin-top: 8px;
+         padding: 8px 22px;
+         background: linear-gradient(90deg, #43cea2 0%, #185a9d 100%);
+         color: #fff;
+         border: none;
+         border-radius: 8px;
+         font-weight: 600;
+         font-size: 1rem;
+         letter-spacing: 1px;
+         cursor: pointer;
+         transition: background 0.25s, box-shadow 0.25s;
+         box-shadow: 0 2px 8px #b3e5fc;
+         text-decoration: none;
+      }
+      .card__button:hover {
+         background: linear-gradient(90deg, #ffb347 0%, #ffcc33 100%);
+         color: #185a9d;
+         box-shadow: 0 4px 16px #ffecb3;
+      }
+      .footer {
+         text-align: center;
+         margin-top: 60px;
+         padding: 16px;
+         color: #555;
+         background-color: #f1f8e9;
+         border-radius: 0 0 18px 18px;
+         font-size: 1rem;
+         box-shadow: 0 -2px 8px rgba(56, 142, 60, 0.06);
+         letter-spacing: 1px;
+         font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+      }
+      @media (max-width: 1100px) {
+         .header-bar {
+            flex-direction: column;
+            gap: 10px;
+         }
+         .navbar {
+            flex-direction: column;
+            height: auto;
+            padding: 0 10px;
+         }
+         .container, .card__container {
+            flex-direction: column;
+            align-items: center;
+            gap: 28px;
+         }
+         .card__article {
+            min-width: 90vw;
+            max-width: 98vw;
+         }
+      }
+   </style>
+</head>
+<body>
+   <!-- Header với logo và tên nhóm -->
+   <div class="header-bar">
+      <img src="assets/img/logotruong.png" alt="Logo Left" class="logo-img">
+      <div class="group-name">IoT Smart Monitor</div>
+      <img src="assets/img/logokhoa.png" alt="Logo Right" class="logo-img">
+   </div>
+   <!-- Navbar và nút đăng xuất cùng hàng -->
+   <nav class="navbar">
+      <ul class="navbar__list">
+         <li><a href="index.html" class="navbar__link active">Home</a></li>
+         <li><a href="weather.html" class="navbar__link">Weather</a></li>
+         <li><a href="About_us.html" class="navbar__link">About Us</a></li>
+      </ul>
+      <button class="logout-btn" onclick="logout()">Đăng xuất</button>
+   </nav>
+   <!-- Card phòng -->
+   <div class="container">
+      <div class="card__container">
+         <article class="card__article">
+            <img src="assets/img/phongkhach.jpg" alt="image" class="card__img">
+            <div class="card__data">
+               <h2 class="card__title">Phòng khách</h2>
+               <a href="phongkhach.html" class="card__button">Read More</a>
+            </div>
+         </article>
+         <article class="card__article">
+            <img src="assets/img/phongan.jpg" alt="image" class="card__img">
+            <div class="card__data">
+               <h2 class="card__title">Phòng ăn</h2>
+               <a href="phongan.html" class="card__button">Read More</a>
+            </div>
+         </article>
+         <article class="card__article">
+            <img src="assets/img/phongngu.jpg" alt="image" class="card__img">
+            <div class="card__data">
+               <h2 class="card__title">Phòng ngủ</h2>
+               <a href="phongngu.html" class="card__button">Read More</a>
+            </div>
+         </article>
+      </div>
+   </div>
+   <footer class="footer">
+      <p> Lê Anh Quất</p>
+      <p> Khưu Chí Khang</p>
+      <p> Lê Quốc Đạt</p>
+   </footer>
+   <script>
+      // Kiểm tra trạng thái đăng nhập
+      if (localStorage.getItem('loggedIn') !== 'true') {
+         window.location.href = 'login.html';
+      }
+      // Hàm đăng xuất
+      function logout() {
+         localStorage.removeItem('loggedIn');
+         window.location.href = 'login.html';
+      }
+   </script>
+</body>
+</html>

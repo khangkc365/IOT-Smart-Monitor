@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phòng ăn</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url('assets/img/phongan.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+        /* Overlay tối nhẹ */
+        body::before {
+        content: "";
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(255, 245, 200, 0.267); /* Overlay vàng nhạt sáng */
+        z-index: 0;
+    }
+        header {
+            width: 100%;
+            text-align: center;
+            margin: 40px 0 30px 0;
+            position: relative;
+            z-index: 1;
+        }
+        header h1 {
+            color: #fff;
+            font-size: 3.2rem;
+            letter-spacing: 4px;
+            text-shadow: 0 4px 24px #000, 0 0 10px #1e90ff;
+            margin: 0;
+        }
+        header h2.slogan {
+            color: #4b3c1a; /* Vàng nâu nổi bật, dễ đọc trên nền sáng */
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-top: 10px;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 8px #fff, 0 0 10px #ffe066;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(2, auto);
+            gap: 32px;
+            width: 75vw;
+            max-width: 1100px;
+            z-index: 1;
+            position: relative;
+            transform: scale(0.7);              /* Thu nhỏ toàn bộ giao diện */
+            transform-origin: top center;        /* Giữ giao diện ở giữa khi scale */
+        }
+        .grid-item {
+            background: linear-gradient(135deg, rgba(255,255,255,0.13) 60%, rgba(30,144,255,0.10) 100%);
+            border-radius: 28px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.25), 0 0 0 4px #1e90ff22;
+            border: 1.5px solid #1e90ff33;
+            position: relative;
+            overflow: hidden;
+            padding: 32px 16px 28px 16px;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: box-shadow 0.2s, transform 0.2s;
+            min-height: 260px;
+        }
+        .grid-item:hover {
+            box-shadow: 0 12px 36px 0 #1e90ff55, 0 0 0 4px #1e90ff33;
+            transform: translateY(-6px) scale(1.03);
+        }
+        .grid-item img {
+            width: 140px;
+            height: 140px;
+            object-fit: contain;
+            margin-bottom: 18px;
+            transition: transform 0.2s;
+            filter: drop-shadow(0 4px 16px #1e90ff88);
+        }
+        .grid-item img.device-btn {
+            width: 180px !important;
+            height: 180px !important;
+            margin-bottom: 18px;
+            cursor: pointer;
+            filter: drop-shadow(0 4px 24px #ffb300cc);
+        }
+        .grid-item img.device-btn:hover {
+            transform: scale(1.08) rotate(-4deg);
+            filter: drop-shadow(0 8px 32px #ffb300ee);
+        }
+        .grid-item h3 {
+            margin: 10px 0 6px 0;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #00eaff;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 8px #222, 0 0 10px #1e90ff;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        .grid-item p {
+            font-size: 2.2rem;
+            font-weight: bold;
+            margin: 0;
+            color: #fff;
+            background: none;
+            text-shadow: 0 2px 12px #1e90ff, 0 0 10px #000;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        .grid-item .corner-icon {
+            position: absolute;
+            top: 18px;
+            left: 18px; /* Đổi sang bên trái */
+            width: 72px;
+            height: 72px;
+            opacity: 1;
+            filter: drop-shadow(0 0 12px #ffd700cc) drop-shadow(0 0 6px #1e90ff88);
+            pointer-events: none;
+            z-index: 2;
+            transform: rotate(-10deg); /* Xoay nhẹ cho vui mắt */
+        }
+        .grid-item .divider {
+            width: 60%;
+            height: 2px;
+            background: linear-gradient(90deg, #1e90ff 0%, #ffd700 100%);
+            border-radius: 1px;
+            margin: 10px 0 18px 0;
+            opacity: 0.5;
+        }
+        #air-btn {
+            width: 240px !important;
+            height: 160px !important;
+        }
+        #lamp-btn, #clock-img {
+            width: 180px !important;
+            height: 180px !important;
+        }
+        #remote-btn, #btn2 {
+            width: 120px !important;
+            height: 120px !important;
+            margin-top: 32px; /* Thêm dòng này để đẩy xuống dưới */
+        }
+        #fan-btn {
+            width: 120px !important;
+            height: 120px !important;
+            margin-top: 32px;
+        }
+        #clock-time {
+            font-size: 2.2rem;
+            color: #fff;
+            margin-bottom: 8px;
+            text-shadow: 0 2px 12px #ffb300, 0 0 10px #000;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        #alarm-time, #set-alarm-btn {
+            font-size: 1.1rem;
+            border-radius: 8px;
+            border: none;
+            padding: 7px 14px;
+            margin-top: 8px;
+            background: #fff;
+            color: #1e90ff;
+            box-shadow: 0 2px 8px #1e90ff33;
+        }
+        #set-alarm-btn {
+            cursor: pointer;
+            background: linear-gradient(90deg, #1e90ff 60%, #ffb300 100%);
+            color: #fff;
+            font-weight: bold;
+            margin-top: 10px;
+            transition: background 0.2s;
+        }
+        #set-alarm-btn:hover {
+            background: linear-gradient(90deg, #ffb300 0%, #1e90ff 100%);
+        }
+        #alarm-status {
+            margin-top: 7px;
+            color: #ffd700;
+            font-size: 1.1rem;
+            text-shadow: 0 2px 8px #222, 0 0 10px #ffd700;
+        }
+        @media (max-width: 900px) {
+            .grid-container {
+                grid-template-columns: 1fr;
+                width: 98vw;
+            }
+            .grid-item {
+                min-height: 200px;
+            }
+        }
+        .curtain {
+            position: fixed;
+            top: 0;
+            height: 100vh;
+            width: auto;
+            z-index: 10;
+            pointer-events: none;
+            user-select: none;
+            opacity: 0.92;
+        }
+        .curtain-left {
+            left: 0;
+        }
+        .curtain-right {
+            right: 0;
+            transform: scaleX(-1); /* Lật ngược để đối xứng */
+        }
+
+        /* Gif TV nằm bên trái ô nhiệt độ */
+        .tv-gif-left {
+        position: absolute;
+        top: 200px;   /* Điều chỉnh cho đúng vị trí hàng trên cùng */
+        left: 6vw;    /* Điều chỉnh cho đúng vị trí bên trái khung nhiệt độ */
+        z-index: 5;
+        pointer-events: none;
+        }
+        #tv-gif-img {
+            width: 220px !important;
+            height: 220px !important;
+        }
+    </style>
+</head>
+<body>
+
+    <!--<img class="curtain curtain-left" src="assets/img/curtain.png" alt="Rèm trái">
+    <img class="curtain curtain-right" src="assets/img/curtain.png" alt="Rèm phải"> -->
+    
+    <header>
+        <h1>PHÒNG ĂN</h1>
+        <h2 class="slogan">Không gian ăn uống thoải mái</h2>
+    </header>
+    <div class="grid-container">
+        <!-- Hàng trên -->
+        <div class="grid-item">
+            <img class="corner-icon" src="assets/img/sun.png" alt="">
+            <img src="assets/img/temperature_1.png" alt="Nhiệt độ">
+            <h3>Nhiệt độ</h3>
+            <div class="divider"></div>
+            <p>25°C</p>
+        </div>
+        <div class="grid-item">
+            <img class="corner-icon" src="assets/img/drop.png" alt="">
+            <img src="assets/img/humidity_1.png" alt="Độ ẩm">
+            <h3>Độ ẩm</h3>
+            <div class="divider"></div>
+            <p>60%</p>
+        </div>
+        <div class="grid-item">
+            <img class="corner-icon" src="assets/img/warning.png" alt="">
+            <img src="assets/img/gas_leak.png" alt="Khí gas">
+            <h3>Khí gas</h3>
+            <div class="divider"></div>
+            <p>An toàn</p>
+        </div>
+        <!-- Hàng dưới -->
+        <div class="grid-item" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+            <img id="air-btn" class="device-btn" src="assets/img/gas_off.png" alt="Air">
+            <img id="remote-btn" class="device-btn" src="assets/img/power_off.png" alt="Remote">
+        </div>
+        <div class="grid-item" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+            <img id="lamp-btn" class="device-btn" src="assets/img/oven_off.png" alt="Lamp">
+            <img id="btn2" class="device-btn" src="assets/img/turn_off.png" alt="Button">
+        </div>
+        <div class="grid-item" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+            <img id="fan-img" class="device-btn" src="assets/img/fridge_off.png" alt="Fan">
+            <img id="fan-btn" class="device-btn" src="assets/img/fanb1.png" alt="Fan Button">
+        </div>
+    </div>
+    <div class="tv-gif-left" id="tv-gif-left" style="display:none;">
+        <img id="tv-gif-img" src="" alt="TV GIF" style="width:70px; height:70px;">
+    </div>
+    <script>
+        const remoteBtn = document.getElementById('remote-btn');
+        const airBtn = document.getElementById('air-btn');
+        const tvGifLeft = document.getElementById('tv-gif-left');
+        const tvGifImg = document.getElementById('tv-gif-img');
+        let tvState = 0; // 0: tắt, 1: gif1, 2: gif2
+
+        const tvGifs = [
+            "assets/img/gif_4.gif",
+            "assets/img/gif_5.gif"
+        ];
+
+        remoteBtn.addEventListener('click', function() {
+            tvState = (tvState + 1) % 3;
+            if (tvState === 0) {
+                remoteBtn.src = 'assets/img/power_off.png';
+                airBtn.src = 'assets/img/gas_off.png';
+                tvGifLeft.style.display = "none";
+            } else {
+                remoteBtn.src = 'assets/img/power_on.png';
+                airBtn.src = 'assets/img/gas_on.png';
+                tvGifImg.src = tvGifs[tvState - 1];
+                tvGifLeft.style.display = "block";
+            }
+        });
+
+        // Thêm xử lý cho nút ở hàng dưới 2
+        const btn2 = document.getElementById('btn2');
+        const lampBtn = document.getElementById('lamp-btn');
+        let btn2On = false;
+        btn2.addEventListener('click', function() {
+            btn2On = !btn2On;
+            btn2.src = btn2On ? 'assets/img/turn_on.png' : 'assets/img/turn_off.png';
+            lampBtn.src = btn2On ? 'assets/img/oven_on.png' : 'assets/img/oven_off.png';
+        });
+
+        const fanImg = document.getElementById('fan-img');
+        const fanBtn = document.getElementById('fan-btn');
+        let fanOn = false;
+
+        fanBtn.addEventListener('click', () => {
+            fanOn = !fanOn;
+            if (fanOn) {
+                fanImg.src = 'assets/img/fridge_on.png';      // hoặc đổi thành ảnh quạt bật nếu có
+                fanBtn.src = 'assets/img/fanb2.png';    // hoặc đổi thành ảnh nút bật nếu có
+            } else {
+                fanImg.src = 'assets/img/fridge_off.png'; // hoặc đổi thành ảnh quạt tắt nếu có
+                fanBtn.src = 'assets/img/fanb1.png';      // hoặc đổi thành ảnh nút tắt nếu có
+            }
+        });
+
+
+        // CSS rung màn hình
+        const style = document.createElement('style');
+        style.innerHTML = `
+        .shake {
+            animation: shake 0.5s linear infinite;
+        }
+        @keyframes shake {
+            0% { transform: translate(2px, 1px) rotate(0deg); }
+            10% { transform: translate(-1px, -2px) rotate(-1deg); }
+            20% { transform: translate(-3px, 0px) rotate(1deg); }
+            30% { transform: translate(0px, 2px) rotate(0deg); }
+            40% { transform: translate(1px, -1px) rotate(1deg); }
+            50% { transform: translate(-1px, 2px) rotate(-1deg); }
+            60% { transform: translate(-3px, 1px) rotate(0deg); }
+            70% { transform: translate(2px, 1px) rotate(-1deg); }
+            80% { transform: translate(-1px, -1px) rotate(1deg); }
+            90% { transform: translate(2px, 2px) rotate(0deg); }
+            100% { transform: translate(1px, -2px) rotate(-1deg); }
+        }
+        `;
+        document.head.appendChild(style);
+    </script>
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
+      import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-database.js";
+      const firebaseConfig = {
+        apiKey: "AIzaSyDDCpvt0iXyXRXHUnJwWYTkZzslwrD4ZH4",
+        authDomain: "project2-ea288.firebaseapp.com",
+        databaseURL: "https://project2-ea288-default-rtdb.firebaseio.com",
+        projectId: "project2-ea288",
+        storageBucket: "project2-ea288.firebasestorage.app",
+        messagingSenderId: "1043037540664",
+        appId: "1:1043037540664:web:6c004642d4b9c2da8ff1cd",
+        measurementId: "G-6B52FSW42T"
+      };
+      const app = initializeApp(firebaseConfig);
+      const db = getDatabase(app);
+      const bedroomRef = ref(db, 'kitchen');
+      onValue(bedroomRef, (snapshot) => {
+        const data = snapshot.val();
+        if (data) {
+          document.querySelector('.grid-item:nth-child(1) p').textContent = data.temperature + "°C";
+          document.querySelector('.grid-item:nth-child(2) p').textContent = data.humidity + "%";
+          document.querySelector('.grid-item:nth-child(3) p').textContent = data.gas + " ppm";
+        }
+      });
+    </script>
+</body>
+</html>

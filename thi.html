@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>IOT Smart Monitor - 3 Cột Chuẩn</title>
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(120deg, #e0f7fa 0%, #f8bbd0 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+        .header-row {
+            width: 90vw;
+            max-width: 1200px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-top: 38px;
+            margin-bottom: 0;
+        }
+        .header-logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 33.33%;
+        }
+        .header-logo img {
+            width: 64px;
+            height: 64px;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 12px #ffeb3b);
+        }
+        .header-title {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 33.33%;
+        }
+        .header-title span {
+            font-size: 2.3rem;
+            font-weight: 800;
+            color: #1976d2;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 8px #b3e5fc;
+            font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+        }
+        .header-empty {
+            width: 33.33%;
+        }
+        .main-container {
+            display: flex;
+            width: 90vw;
+            max-width: 1200px;
+            min-height: 70vh;
+            box-shadow: 0 8px 32px rgba(33, 150, 243, 0.13), 0 1.5px 8px #ffb347;
+            border-radius: 28px;
+            background: rgba(255,255,255,0.7);
+            overflow: hidden;
+            margin-top: 0;
+        }
+        .col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 36px 18px 28px 18px;
+            position: relative;
+        }
+        .col.left {
+            flex: 1 1 0;
+            max-width: 220px;
+            border-right: 2px solid #e0e0e0;
+        }
+        .col.center {
+            flex: 2.5 1 0;
+            min-width: 320px;
+            border-right: 2px solid #e0e0e0;
+            border-left: 2px solid #e0e0e0;
+        }
+        .col.right {
+            flex: 1 1 0;
+            max-width: 220px;
+        }
+        .col-header {
+            margin-bottom: 28px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #1976d2;
+            letter-spacing: 1px;
+            text-align: center;
+        }
+        .info-bar {
+            margin-top: 18px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 1.1rem;
+            color: #1976d2;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+        .info-bar .info-item {
+            margin: 2px 0;
+        }
+        @media (max-width: 900px) {
+            .header-row {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+                margin-top: 18px;
+            }
+            .header-logo, .header-title, .header-empty {
+                width: 100%;
+                align-items: center;
+                justify-content: center;
+            }
+            .main-container {
+                flex-direction: column;
+                min-height: unset;
+            }
+            .col {
+                border-right: none !important;
+                border-left: none !important;
+                border-bottom: 2px solid #e0e0e0;
+                min-width: unset;
+                padding: 24px 8vw 18px 8vw;
+                max-width: unset;
+            }
+            .col.center {
+                min-width: unset;
+            }
+            .col:last-child {
+                border-bottom: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header-row">
+        <div class="header-logo">
+            <img src="assets/img/sun.png" alt="Sun">
+        </div>
+        <div class="header-title">
+            <span>IOT Smart Monitor</span>
+        </div>
+        <div class="header-empty"></div>
+    </div>
+    <div class="main-container">
+        <div class="col left">
+            <!-- Thiết bị 1: Nút nhấn bên trái, thiết bị bên phải -->
+            <div style="display: flex; flex-direction: row; align-items: center; justify-content: center; margin-bottom:32px; width: 100%;">
+                <img id="btn-img" src="assets/img/btn_off.png" alt="Nút nhấn" style="width:60px; height:60px; cursor:pointer; margin-right:18px;">
+                <img id="lamp-img" src="assets/img/lampoff.png" alt="Lamp" style="width:70px; height:70px; transition:filter 0.2s;">
+            </div>
+            <!-- Thiết bị 2: Nút kéo điều khiển quạt -->
+            <div style="display: flex; flex-direction: row; align-items: center; justify-content: center; margin-bottom:32px; width: 100%;">
+                <input id="fan-range" type="range" min="0" max="3" value="0" style="width:60px; margin-right:18px;">
+                <img id="fan-img" src="assets/img/fan.png" alt="Fan" style="width:70px; height:70px; transition:filter 0.2s;">
+            </div>
+            <!-- File mp3 -->
+            <div style="width: 100%; display: flex; justify-content: center; align-items: center;">
+                <audio controls style="width: 90%;">
+                    <source src="assets/mp3/beat4.mp3" type="audio/mpeg">
+                    Trình duyệt của bạn không hỗ trợ audio.
+                </audio>
+            </div>
+        </div>
+        <div class="col center">
+            <div style="display: flex; flex-direction: column; align-items: center; width: 100%; margin-top: 32px;">
+                <!-- Nhiệt độ -->
+                <div style="display: flex; align-items: flex-start; width: 100%; justify-content: center; margin-bottom: 36px;">
+                    <!-- Thông tin nhiệt độ -->
+                    <div style="display: flex; flex-direction: column; align-items: center;">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <img src="assets/img/temperature.png" alt="Nhiệt độ" style="width:48px; height:48px;">
+                            <span style="font-size: 1.5rem; font-weight: 700; color: #e65100; letter-spacing: 1px;">Nhiệt độ</span>
+                        </div>
+                        <div style="font-size: 2.3rem; font-weight: 800; color: #e65100; margin-top: 12px;">
+                            <span id="temp-value">--</span> &deg;C
+                        </div>
+                    </div>
+                    <!-- Biểu đồ nhiệt độ -->
+                    <canvas id="temp-chart" width="120" height="60" style="margin-left: 32px;"></canvas>
+                </div>
+                <!-- Độ ẩm -->
+                <div style="display: flex; align-items: flex-start; width: 100%; justify-content: center;">
+                    <!-- Thông tin độ ẩm -->
+                    <div style="display: flex; flex-direction: column; align-items: center;">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <img src="assets/img/doam.png" alt="Độ ẩm" style="width:48px; height:48px;">
+                            <span style="font-size: 1.5rem; font-weight: 700; color: #1976d2; letter-spacing: 1px;">Độ ẩm</span>
+                        </div>
+                        <div style="font-size: 2.3rem; font-weight: 800; color: #1976d2; margin-top: 12px;">
+                            <span id="humi-value">--</span> %
+                        </div>
+                    </div>
+                    <!-- Biểu đồ độ ẩm -->
+                    <canvas id="humi-chart" width="120" height="60" style="margin-left: 32px;"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col right">
+            <!-- Nội dung cột 3 -->
+        </div>
+    </div>
+    <div class="info-bar">
+        <div class="info-item">Khưu Chí Khang - 22161266</div>
+    </div>
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.3/firebase-app.js";
+      import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.7.3/firebase-analytics.js";
+      import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/11.7.3/firebase-database.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyDDCpvt0iXyXRXHUnJwWYTkZzslwrD4ZH4",
+        authDomain: "project2-ea288.firebaseapp.com",
+        databaseURL: "https://project2-ea288-default-rtdb.firebaseio.com",
+        projectId: "project2-ea288",
+        storageBucket: "project2-ea288.firebasestorage.app",
+        messagingSenderId: "1043037540664",
+        appId: "1:1043037540664:web:6c004642d4b9c2da8ff1cd",
+        measurementId: "G-6B52FSW42T"
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const analytics = getAnalytics(app);
+      const db = getDatabase(app);
+
+      // ================== NÚT NHẤN & NÚT KÉO ==================
+      document.addEventListener('DOMContentLoaded', function() {
+        // Nút nhấn
+        const btnImg = document.getElementById('btn-img');
+        const lampImg = document.getElementById('lamp-img');
+        let btnOn = false;
+        btnImg.addEventListener('click', function() {
+          btnOn = !btnOn;
+          btnImg.src = btnOn ? 'assets/img/btn_on.png' : 'assets/img/btn_off.png';
+          lampImg.src = btnOn ? 'assets/img/lampon.png' : 'assets/img/lampoff.png';
+          lampImg.style.filter = btnOn ? 'drop-shadow(0 0 16px #ffd600)' : 'none';
+        });
+
+        // Nút kéo quạt
+        const fanImg = document.getElementById('fan-img');
+        const fanRange = document.getElementById('fan-range');
+        function setFanSpeed(speed) {
+          fanImg.style.animation = '';
+          void fanImg.offsetWidth; // force reflow
+          if (speed == 0) {
+            fanImg.style.animation = 'none';
+            fanImg.style.opacity = '0.5';
+          } else {
+            let duration = (speed == 1) ? 2 : (speed == 2) ? 1 : 0.5;
+            fanImg.style.animation = `fanSpin ${duration}s linear infinite`;
+            fanImg.style.opacity = '1';
+          }
+        }
+        fanRange.addEventListener('input', function() {
+          setFanSpeed(Number(fanRange.value));
+        });
+        setFanSpeed(0);
+
+        // CSS động cho quạt
+        const style = document.createElement('style');
+        style.innerHTML = `
+          @keyframes fanSpin {
+            100% { transform: rotate(360deg);}
+          }
+        `;
+        document.head.appendChild(style);
+      });
+
+      // ================== FIREBASE & BIỂU ĐỒ ==================
+      const TEMP_WARN = 30;
+      const HUMI_WARN = 80;
+      let tempHistory = [26, 27, 28, 29, 28, 27, 28];
+      let humiHistory = [60, 62, 63, 65, 66, 65, 65];
+
+      function drawBarChart(ctx, data, warn, color, warnColor, maxValue) {
+        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+        const w = ctx.canvas.width;
+        const h = ctx.canvas.height;
+        const barWidth = w / data.length - 6;
+        for (let i = 0; i < data.length; i++) {
+          const value = data[i];
+          const barHeight = (value / maxValue) * (h - 16);
+          ctx.beginPath();
+          ctx.fillStyle = value > warn ? warnColor : color;
+          ctx.fillRect(i * (w / data.length) + 3, h - barHeight, barWidth, barHeight);
+          ctx.closePath();
+        }
+        // Vẽ đường cảnh báo
+        const warnY = h - (warn / maxValue) * (h - 16);
+        ctx.beginPath();
+        ctx.strokeStyle = warnColor;
+        ctx.setLineDash([4, 3]);
+        ctx.moveTo(0, warnY);
+        ctx.lineTo(w, warnY);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        // Hiển thị số cuối cùng trên cột cuối
+        const lastIdx = data.length - 1;
+        const lastBarHeight = (data[lastIdx] / maxValue) * (h - 16);
+        ctx.font = "bold 16px Arial";
+        ctx.fillStyle = data[lastIdx] > warn ? warnColor : color;
+        ctx.textAlign = "center";
+        ctx.fillText(data[lastIdx], lastIdx * (w / data.length) + 3 + barWidth / 2, h - lastBarHeight - 8);
+      }
+
+      function drawLineChart(ctx, data, warn, color, warnColor, maxValue) {
+        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+        const w = ctx.canvas.width;
+        const h = ctx.canvas.height;
+        // Vẽ đường line
+        ctx.beginPath();
+        for (let i = 0; i < data.length; i++) {
+          const x = i * (w / (data.length - 1));
+          const y = h - (data[i] / maxValue) * (h - 16);
+          if (i === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 3;
+        ctx.stroke();
+
+        // Vẽ điểm cuối cùng
+        const lastIdx = data.length - 1;
+        const x = lastIdx * (w / (data.length - 1));
+        const y = h - (data[lastIdx] / maxValue) * (h - 16);
+        ctx.beginPath();
+        ctx.arc(x, y, 6, 0, 2 * Math.PI);
+        ctx.fillStyle = data[lastIdx] > warn ? warnColor : "#43ea5e";
+        ctx.shadowColor = data[lastIdx] > warn ? warnColor : "#43ea5e";
+        ctx.shadowBlur = 8;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+
+        // Vẽ đường cảnh báo
+        const warnY = h - (warn / maxValue) * (h - 16);
+        ctx.beginPath();
+        ctx.strokeStyle = warnColor;
+        ctx.setLineDash([4, 3]);
+        ctx.moveTo(0, warnY);
+        ctx.lineTo(w, warnY);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Hiển thị số cuối cùng
+        ctx.font = "bold 16px Arial";
+        ctx.fillStyle = data[lastIdx] > warn ? warnColor : color;
+        ctx.textAlign = "center";
+        ctx.fillText(data[lastIdx], x, y - 10);
+      }
+
+      // Lắng nghe nhiệt độ
+      const nhietdoRef = ref(db, 'nhietdo1');
+      onValue(nhietdoRef, (snapshot) => {
+        const value = snapshot.val();
+        if (value !== null) {
+          document.getElementById('temp-value').textContent = value;
+          tempHistory.push(Number(value));
+          if (tempHistory.length > 7) tempHistory.shift();
+          const tempCtx = document.getElementById('temp-chart').getContext('2d');
+          drawBarChart(tempCtx, tempHistory, TEMP_WARN, "#ff9800", "#ff1744", 50);
+        }
+      });
+
+      // Lắng nghe độ ẩm
+      const doamRef = ref(db, 'doam1');
+      onValue(doamRef, (snapshot) => {
+        const value = snapshot.val();
+        if (value !== null) {
+          document.getElementById('humi-value').textContent = value;
+          humiHistory.push(Number(value));
+          if (humiHistory.length > 7) humiHistory.shift();
+          const humiCtx = document.getElementById('humi-chart').getContext('2d');
+          drawLineChart(humiCtx, humiHistory, HUMI_WARN, "#1976d2", "#ff1744", 100);
+        }
+      });
+
+      // Vẽ lần đầu khi chưa có dữ liệu Firebase
+      document.addEventListener('DOMContentLoaded', function() {
+        const tempCtx = document.getElementById('temp-chart').getContext('2d');
+        drawBarChart(tempCtx, tempHistory, TEMP_WARN, "#ff9800", "#ff1744", 50);
+        const humiCtx = document.getElementById('humi-chart').getContext('2d');
+        drawLineChart(humiCtx, humiHistory, HUMI_WARN, "#1976d2", "#ff1744", 100);
+      });
+    </script>
+</body>
+</html>
